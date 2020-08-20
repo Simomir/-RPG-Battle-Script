@@ -3,15 +3,24 @@
 from classes.game import Person, BColors
 from classes.magic import Magic
 
+# Create Black Magic
+Fire = Magic('Fire', 10, 95, 'black')
+Thunder = Magic('Thunder', 12, 141, 'black')
+Blizzard = Magic('Blizzard', 15, 124, 'black')
+Meteor = Magic('Meteor', 30, 240, 'black')
+Quake = Magic('Quake', 18, 135, 'black')
 
-Fire = Magic('Fire', 10, 95)
-Thunder = Magic('Thunder', 12, 141)
-Blizzard = Magic('Blizzard', 15, 124)
-spells = [Fire, Thunder, Blizzard]
+# Create White Magic
+Cure = Magic("Cure", 12, 120, 'white')
+Cura = Magic("Cura", 18, 200, 'white')
 
 
-player = Person(460, 65, 60, 34, spells)
-enemy = Person(1200, 65, 45, 25, spells)
+player_spells = [Fire, Thunder, Blizzard, Meteor, Cure, Cura]
+enemy_spells = []
+
+# Create opponents
+player = Person(460, 65, 60, 34, player_spells)
+enemy = Person(1200, 65, 45, 25, enemy_spells)
 
 running = True
 print(f"{BColors.FAIL}{BColors.BOLD}AN ENEMY ATTACKS!{BColors.ENDC}")
@@ -45,8 +54,9 @@ while running:
                 break
             print("Wrong magic number! Choose again!")
         idx = choice - 1
-        spell = player.get_magic_name(idx)
-        cost = player.get_magic_mp_cost(idx)
+        spell = player.magic[idx]
+        spell_name = spell.name
+        cost = spell.mp_cost
         current_player_mp = player.mp
 
         if cost > current_player_mp:
@@ -54,9 +64,14 @@ while running:
             continue
 
         player.reduce_mp(cost)
-        magic_damage = player.magic_damage(idx)
-        enemy.take_damage(magic_damage)
-        print(f"{BColors.OKBLUE}\n{spell} deals {magic_damage} points of damage.{BColors.ENDC}")
+        magic_damage = spell.generate_damage()
+
+        if spell.type == 'white':
+            player.heal(magic_damage)
+            print(f"{BColors.OKBLUE}\n{spell_name} heals for {magic_damage} HP.{BColors.ENDC}")
+        elif spell.type == 'black':
+            enemy.take_damage(magic_damage)
+            print(f"{BColors.OKBLUE}\n{spell} deals {magic_damage} points of damage.{BColors.ENDC}")
 
     # Enemy attack move
     enemy_choice = 1

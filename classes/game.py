@@ -1,6 +1,7 @@
 #!usr/local/bin/python3.8
 # -*- coding: utf-8 -*import
 import random
+import pprint
 from typing import List
 from classes.magic import Magic
 
@@ -39,12 +40,6 @@ class Person:
         attack_high = self.__attack + 20
         return random.randrange(attack_low, attack_high)
 
-    def magic_damage(self, idx):
-        magic_damage = self.magic[idx].damage
-        damage_low = magic_damage - 10
-        damage_high = magic_damage + 10
-        return random.randrange(damage_low, damage_high)
-
     def take_damage(self, damage: int):
         self.hp -= damage
         if self.hp <= 0:
@@ -53,6 +48,11 @@ class Person:
 
     def reduce_mp(self, cost: int):
         self.mp -= cost
+
+    def heal(self, dmg):
+        self.hp += dmg
+        if self.hp > self.__max_hp:
+            self.hp = self.__max_hp
 
     @staticmethod
     def choose_action():
@@ -64,7 +64,7 @@ class Person:
 
     def choose_magic(self):
         i = 1
-        print('Magic')
+        print(f'{BColors.OKBLUE}{BColors.BOLD}Magic{BColors.ENDC}')
         for magic in self.magic:
             print(f"{i}: {magic.name}, (cost: {magic.mp_cost})")
             i += 1

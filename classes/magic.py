@@ -1,5 +1,6 @@
 #!usr/local/bin/python3.8
 # -*- coding: utf-8 -*import
+import random
 
 
 class Magic:
@@ -8,3 +9,8 @@ class Magic:
         self.mp_cost = mp_cost
         self.damage = damage
         self.type = type
+
+    def generate_damage(self):
+        low = self.damage - 20
+        high = self.damage + 20
+        return random.randrange(low, high)
