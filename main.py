@@ -18,6 +18,7 @@ print(f"{BColors.FAIL}{BColors.BOLD}AN ENEMY ATTACKS!{BColors.ENDC}")
 
 while running:
     print('=' * 30)
+    # Player attack move
     player.choose_action()
     correct = False
     while True:
@@ -31,5 +32,12 @@ while running:
     if idx == 0:
         damage = player.damage()
         enemy.take_damage(damage)
+        print(f"You attacked for {damage} points of damage. Enemy HP: {enemy.hp}")
 
-    running = False
+    # Enemy attack move
+    enemy_choice = 1
+    enemy_damage = enemy.damage()
+    player.take_damage(enemy_damage)
+    print(f"Enemy attacks for {enemy_damage} points of damage. Player HP: {player.hp}")
+
+    # running = False

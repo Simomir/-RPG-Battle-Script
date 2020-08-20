@@ -28,14 +28,8 @@ class Person:
         self.defence = defence
         self.magic = magic
 
-    def hp(self):
-        return self.hp
-
     def max_hp(self):
         return self.__max_hp
-
-    def mp(self):
-        return self.mp
 
     def max_mp(self):
         return self.__max_mp
