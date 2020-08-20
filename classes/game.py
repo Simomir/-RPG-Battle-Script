@@ -54,12 +54,6 @@ class Person:
     def reduce_mp(self, cost: int):
         self.mp -= cost
 
-    def get_magic_name(self, idx):
-        return self.magic[idx].name
-
-    def get_magic_mp_cost(self, idx):
-        return self.magic[idx].mp_cost
-
     @staticmethod
     def choose_action():
         i = 1

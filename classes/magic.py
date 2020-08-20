@@ -3,7 +3,8 @@
 
 
 class Magic:
-    def __init__(self, name: str, mp_cost: int, damage: int):
+    def __init__(self, name: str, mp_cost: int, damage: int, type):
         self.name = name
         self.mp_cost = mp_cost
         self.damage = damage
+        self.type = type
