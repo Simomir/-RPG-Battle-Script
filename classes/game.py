@@ -1,7 +1,7 @@
 #!usr/local/bin/python3.8
 # -*- coding: utf-8 -*import
 import random
-import pprint
+from classes.inventory import Item
 from typing import List
 from classes.magic import Magic
 
@@ -18,9 +18,9 @@ class BColors:
 
 
 class Person:
-    ACTIONS = ['Attack', 'Magic']
+    ACTIONS = ['Attack', 'Magic', 'Items']
 
-    def __init__(self, hp: int, mp: int, attack: int, defence: int, magic: List[Magic]):
+    def __init__(self, hp: int, mp: int, attack: int, defence: int, magic: List[Magic], items: List[Item]):
         self.__max_hp = hp
         self.hp = hp
         self.__max_mp = mp
@@ -28,6 +28,7 @@ class Person:
         self.__attack = attack
         self.defence = defence
         self.magic = magic
+        self.items = items
 
     def max_hp(self):
         return self.__max_hp
@@ -57,14 +58,21 @@ class Person:
     @staticmethod
     def choose_action():
         i = 1
-        print('Actions')
+        print(f'{BColors.OKBLUE}{BColors.BOLD}ACTIONS{BColors.ENDC}')
         for action in Person.ACTIONS:
-            print(f"{i}: {action}")
+            print(f"    {i}. {action}")
             i += 1
 
     def choose_magic(self):
         i = 1
-        print(f'{BColors.OKBLUE}{BColors.BOLD}Magic{BColors.ENDC}')
+        print(f'{BColors.OKBLUE}{BColors.BOLD}MAGIC{BColors.ENDC}')
         for magic in self.magic:
-            print(f"{i}: {magic.name}, (cost: {magic.mp_cost})")
+            print(f"    {i}. {magic.name}, (cost: {magic.mp_cost})")
+            i += 1
+
+    def choose_item(self):
+        i = 1
+        print(f"{BColors.OKGREEN}{BColors.BOLD}ITEMS:{BColors.ENDC}")
+        for item in self.items:
+            print(f"    {i}. {item.name}: {item.description} (x5)")
             i += 1
