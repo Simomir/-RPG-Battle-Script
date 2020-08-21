@@ -1,7 +1,6 @@
 #!usr/local/bin/python3.8
 # -*- coding: utf-8 -*import
 import random
-from classes.inventory import Item
 from typing import List, Dict
 from classes.magic import Magic
 
@@ -20,8 +19,9 @@ class BColors:
 class Person:
     ACTIONS = ['Attack', 'Magic', 'Items']
 
-    def __init__(self, hp: int, mp: int, attack: int, defence: int,
+    def __init__(self, name, hp: int, mp: int, attack: int, defence: int,
                  magic: List[Magic], items: List[Dict]):
+        self.name = name
         self.__max_hp = hp
         self.hp = hp
         self.__max_mp = mp
@@ -58,9 +58,9 @@ class Person:
         if self.hp > self.__max_hp:
             self.hp = self.__max_hp
 
-    @staticmethod
-    def choose_action():
+    def choose_action(self):
         i = 1
+        print(f'\n{BColors.OKBLUE}{BColors.BOLD}{self.name} Turn:\n{BColors.ENDC}')
         print(f'{BColors.OKBLUE}{BColors.BOLD}ACTIONS{BColors.ENDC}')
         for action in Person.ACTIONS:
             print(f"    {i}. {action}")
@@ -79,3 +79,10 @@ class Person:
         for item in self.items:
             print(f"    {i}. {item['item'].name}: {item['item'].description} (x{item['quantity']})")
             i += 1
+
+    def get_stats(self):
+        print(f'                     {BColors.BOLD}_________________________          __________{BColors.ENDC}')
+        print(f'{BColors.BOLD}{self.name}:    {self.hp}/{self.__max_hp} '
+              f'|{BColors.OKGREEN}█████████████            {BColors.ENDC}'
+              f'{BColors.BOLD}|   {self.mp}/{self.__max_mp}|{BColors.OKBLUE}██████████{BColors.ENDC}{BColors.BOLD}|'
+              f'{BColors.ENDC}')
