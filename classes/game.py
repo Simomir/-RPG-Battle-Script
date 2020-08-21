@@ -80,6 +80,20 @@ class Person:
             print(f"    {i}. {item['item'].name}: {item['item'].description} (x{item['quantity']})")
             i += 1
 
+    @staticmethod
+    def choose_target(enemies):
+        i = 1
+        print(f"\n{BColors.OKGREEN}{BColors.BOLD}TARGET:{BColors.ENDC}")
+        for enemy in enemies:
+            print(f"    {i}. {enemy.name}")
+            i += 1
+        while True:
+            choice = int(input("Choose target: ")) - 1
+            if choice in range(1, len(enemies) + 1) or choice == 0:
+                break
+            print("Wrong magic number! Choose again!")
+        return choice
+
     def get_stats(self):
         tick = '█'
         hp_ticks = int(((self.hp / self.__max_hp) * 100) / 4)
@@ -153,6 +167,6 @@ class Person:
             hp = f" {hp}"
 
         print(f'                     {BColors.BOLD}__________________________________________________{BColors.ENDC}')
-        print(f'{BColors.BOLD}{self.name}:  {hp}/{self.__max_hp} '
+        print(f'{BColors.BOLD}{self.name}  {hp}/{self.__max_hp} '
               f'|{BColors.FAIL}{hp_bar}{BColors.ENDC}'
               f'{BColors.BOLD}|{BColors.ENDC}')

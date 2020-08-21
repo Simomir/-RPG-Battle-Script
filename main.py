@@ -45,7 +45,13 @@ player_3 = Person('Robot', 3089, 190, 250, 34, player_spells, player_items)
 
 players = [player_1, player_2, player_3]
 
-enemy = Person('Magus', 18200, 510, 310, 25, enemy_spells, enemy_items)
+
+# Create enemies
+enemy_1 = Person('Imp:   ', 1250, 130, 560, 325, [], [])
+enemy_2 = Person('Magus:', 18200, 510, 310, 25, enemy_spells, enemy_items)
+enemy_3 = Person('Imp:   ', 1250, 130, 560, 325, [], [])
+
+enemies = [enemy_1, enemy_2, enemy_3]
 
 running = True
 print(f"{BColors.FAIL}{BColors.BOLD}AN ENEMY ATTACKS!{BColors.ENDC}")
@@ -62,34 +68,32 @@ while running:
 
     # Print enemy stats
     print(f'\n\n')
-    enemy.get_enemy_stats()
+    for x in enemies:
+        x.get_enemy_stats()
 
     # Player attack move
     for player in players:
         print()
         player.choose_action()
-        correct = False
         while True:
             choice = int(input('Choose action: '))
             print()
             if choice in range(1, len(player.ACTIONS) + 1):
-                correct = True
                 break
             print("Wrong action number! Choose again!")
         idx = choice - 1
 
         if idx == 0:
             damage = player.damage()
-            enemy.take_damage(damage)
-            print(f"{player.name} attacked for {damage} points of damage. Enemy HP: {enemy.hp}")
+            enemy = player.choose_target(enemies)
+            enemies[enemy].take_damage(damage)
+            print(f"{player.name} attacked {enemies[enemy].name} for {damage} points of damage. Enemy HP: {enemy_2.hp}")
 
         elif idx == 1:
             player.choose_magic()
-            correct = False
             while True:
                 choice = int(input("Choose magic: "))
                 if choice in range(1, len(player.magic) + 1) or choice == 0:
-                    correct = True
                     break
                 print("Wrong magic number! Choose again!")
             magic_idx = choice - 1
@@ -113,17 +117,16 @@ while running:
                 player.heal(magic_damage)
                 print(f"{BColors.OKBLUE}\n{spell_name} heals for {magic_damage} HP.{BColors.ENDC}")
             elif spell.type == 'black':
-                enemy.take_damage(magic_damage)
+                enemy = player.choose_target(enemies)
+                enemies[enemy].take_damage(magic_damage)
                 print(f"{BColors.OKBLUE}{BColors.BOLD}\n"
-                      f"{spell.name} deals {magic_damage} points of damage.{BColors.ENDC}")
+                      f"{spell.name} deals {magic_damage} points of damage to {enemies[enemy].name}.{BColors.ENDC}")
 
         elif idx == 2:
             player.choose_item()
-            correct = False
             while True:
                 choice = int(input("Choose item: "))
                 if choice in range(1, len(player.items) + 1) or choice == 0:
-                    correct = True
                     break
                 print("Wrong item number! Choose again!")
             item_idx = choice - 1
@@ -151,17 +154,19 @@ while running:
                     x.hp = x.max_hp
                     x.mp = x.max_mp
             elif item.type == 'attack':
-                enemy.take_damage(item.prop)
-                print(f"{BColors.OKBLUE}{BColors.BOLD}\n{item.name} deals {item.prop} points of damage.{BColors.ENDC}")
+                enemy = player.choose_target(enemies)
+                enemies[enemy].take_damage(item.prop)
+                print(f"{BColors.OKBLUE}{BColors.BOLD}\n{item.name} deals {item.prop} points of damage"
+                      f"to {enemies[enemy].name}.{BColors.ENDC}")
 
     # Enemy attack move
     target = random.randrange(0, len(players))
-    enemy_damage = enemy.damage()
+    enemy_damage = enemies[0].damage()
     players[target].take_damage(enemy_damage)
     print(f"{BColors.FAIL}{BColors.BOLD}Enemy attacks for {enemy_damage} points of damage.{BColors.ENDC}")
 
     # check if someone is dead
-    if enemy.hp == 0:
+    if enemy_2.hp == 0:
         print(f"{BColors.OKGREEN}You win!{BColors.ENDC}")
         running = False
     elif player_1.hp == 0:
