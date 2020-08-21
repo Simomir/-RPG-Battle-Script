@@ -127,3 +127,32 @@ class Person:
               f'|{BColors.OKGREEN}{hp_bar}{BColors.ENDC}'
               f'{BColors.BOLD}|   {mp}/{self.__max_mp}|{BColors.OKBLUE}{mp_bar}{BColors.ENDC}{BColors.BOLD}|'
               f'{BColors.ENDC}')
+
+    def get_enemy_stats(self):
+        hp_bar = ''
+        bar_ticks = int(((self.hp / self.__max_hp) * 100) / 2)
+        tick = '█'
+
+        for x in range(bar_ticks):
+            hp_bar += tick
+
+        while True:
+            if len(hp_bar) == 50:
+                break
+            hp_bar += ' '
+
+        # Keep HP 4 spaces
+        hp = str(self.hp)
+        if len(hp) < 2:
+            hp = f"    {hp}"
+        elif len(hp) < 3:
+            hp = f"   {hp}"
+        elif len(hp) < 4:
+            hp = f'  {hp}'
+        elif len(hp) < 5:
+            hp = f" {hp}"
+
+        print(f'                     {BColors.BOLD}__________________________________________________{BColors.ENDC}')
+        print(f'{BColors.BOLD}{self.name}:  {hp}/{self.__max_hp} '
+              f'|{BColors.FAIL}{hp_bar}{BColors.ENDC}'
+              f'{BColors.BOLD}|{BColors.ENDC}')

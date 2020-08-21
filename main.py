@@ -1,6 +1,6 @@
 #!usr/local/bin/python3.8
 # -*- coding: utf-8 -*import
-
+import random
 from classes.game import Person, BColors
 from classes.magic import Magic
 from classes.inventory import Item
@@ -23,7 +23,7 @@ potion = Item('Potion', 'potion', 'Heals 50 HP', 50)
 hi_potion = Item('Hi-Potion', 'potion', 'Heals 100 HP', 100)
 super_potion = Item('Super Potion', 'potion', 'Heals 1000 HP', 1000)
 elixir = Item('Elixir', 'elixir', 'Fully restores HP/MP of one party member', 999999)
-mega_elixir = Item('Mega Elixir', 'elixir', "Fully restores party's HP/MP", 999999)
+mega_elixir = Item('Mega Elixir', 'mega elixir', "Fully restores party's HP/MP", 999999)
 grenade = Item('Grenade', 'attack', "Deals 500 damage", 500)
 
 
@@ -45,18 +45,24 @@ player_3 = Person('Robot', 3089, 190, 250, 34, player_spells, player_items)
 
 players = [player_1, player_2, player_3]
 
-enemy = Person('Magus', 8200, 510, 310, 25, enemy_spells, enemy_items)
+enemy = Person('Magus', 18200, 510, 310, 25, enemy_spells, enemy_items)
 
 running = True
 print(f"{BColors.FAIL}{BColors.BOLD}AN ENEMY ATTACKS!{BColors.ENDC}")
 
 # Main Loop
 while running:
+
+    # Print each player stats
     print(f'\n\n')
     print('=' * 30)
     print(f"Name                 HP                                   MP")
     for player in players:
         player.get_stats()
+
+    # Print enemy stats
+    print(f'\n\n')
+    enemy.get_enemy_stats()
 
     # Player attack move
     for player in players:
@@ -140,17 +146,19 @@ while running:
                 player.hp = player.max_hp
                 player.mp = player.max_mp
                 print(f"{BColors.OKGREEN}\n{item.name} fully restores HP/MP{BColors.ENDC}")
+            elif item.type == 'mega elixir':
+                for x in players:
+                    x.hp = x.max_hp
+                    x.mp = x.max_mp
             elif item.type == 'attack':
                 enemy.take_damage(item.prop)
                 print(f"{BColors.OKBLUE}{BColors.BOLD}\n{item.name} deals {item.prop} points of damage.{BColors.ENDC}")
 
     # Enemy attack move
-    enemy_choice = 1
+    target = random.randrange(0, len(players))
     enemy_damage = enemy.damage()
-    player_1.take_damage(enemy_damage)
+    players[target].take_damage(enemy_damage)
     print(f"{BColors.FAIL}{BColors.BOLD}Enemy attacks for {enemy_damage} points of damage.{BColors.ENDC}")
-    print('-' * 30)
-    print(f"Enemy HP: {BColors.FAIL}{enemy.hp} / {enemy.max_hp}{BColors.ENDC}\n")
 
     # check if someone is dead
     if enemy.hp == 0:
