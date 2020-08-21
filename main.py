@@ -6,22 +6,22 @@ from classes.magic import Magic
 from classes.inventory import Item
 
 # Create Black Magic
-Fire = Magic('Fire', 10, 95, 'black')
-Thunder = Magic('Thunder', 12, 141, 'black')
-Blizzard = Magic('Blizzard', 15, 124, 'black')
-Meteor = Magic('Meteor', 30, 240, 'black')
+Fire = Magic('Fire', 25, 600, 'black')
+Thunder = Magic('Thunder', 25, 600, 'black')
+Blizzard = Magic('Blizzard', 25, 600, 'black')
+Meteor = Magic('Meteor', 40, 1200, 'black')
 Quake = Magic('Quake', 18, 135, 'black')
 
 # Create White Magic
-Cure = Magic("Cure", 12, 120, 'white')
-Cura = Magic("Cura", 18, 200, 'white')
+Cure = Magic("Cure", 25, 620, 'white')
+Cura = Magic("Cura", 34, 1200, 'white')
 
 # -------------------------------------
 
 # Create items
 potion = Item('Potion', 'potion', 'Heals 50 HP', 50)
 hi_potion = Item('Hi-Potion', 'potion', 'Heals 100 HP', 100)
-super_potion = Item('Super Potion', 'potion', 'Heals 500 HP', 500)
+super_potion = Item('Super Potion', 'potion', 'Heals 1000 HP', 1000)
 elixir = Item('Elixir', 'elixir', 'Fully restores HP/MP of one party member', 999999)
 mega_elixir = Item('Mega Elixir', 'elixir', "Fully restores party's HP/MP", 999999)
 grenade = Item('Grenade', 'attack', "Deals 500 damage", 500)
@@ -39,13 +39,13 @@ enemy_spells = []
 enemy_items = []
 
 # Create opponents
-player_1 = Person('Valos', 3260, 65, 60, 34, player_spells, player_items)
-player_2 = Person('Nick ', 4160, 65, 60, 34, player_spells, player_items)
-player_3 = Person('Robot', 3089, 65, 60, 34, player_spells, player_items)
+player_1 = Person('Valos', 3260, 200, 130, 34, player_spells, player_items)
+player_2 = Person('Nick ', 4160, 188, 120, 34, player_spells, player_items)
+player_3 = Person('Robot', 3089, 190, 250, 34, player_spells, player_items)
 
 players = [player_1, player_2, player_3]
 
-enemy = Person('Magus', 5200, 65, 45, 25, enemy_spells, enemy_items)
+enemy = Person('Magus', 8200, 510, 310, 25, enemy_spells, enemy_items)
 
 running = True
 print(f"{BColors.FAIL}{BColors.BOLD}AN ENEMY ATTACKS!{BColors.ENDC}")
@@ -54,6 +54,7 @@ print(f"{BColors.FAIL}{BColors.BOLD}AN ENEMY ATTACKS!{BColors.ENDC}")
 while running:
     print(f'\n\n')
     print('=' * 30)
+    print(f"Name                 HP                                   MP")
     for player in players:
         player.get_stats()
 

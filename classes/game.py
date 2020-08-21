@@ -81,8 +81,42 @@ class Person:
             i += 1
 
     def get_stats(self):
-        print(f'                     {BColors.BOLD}_________________________          __________{BColors.ENDC}')
-        print(f'{BColors.BOLD}{self.name}:    {self.hp}/{self.__max_hp} '
-              f'|{BColors.OKGREEN}█████████████            {BColors.ENDC}'
-              f'{BColors.BOLD}|   {self.mp}/{self.__max_mp}|{BColors.OKBLUE}██████████{BColors.ENDC}{BColors.BOLD}|'
+        tick = '█'
+        hp_ticks = int(((self.hp / self.__max_hp) * 100) / 4)
+        hp_bar = ''
+
+        # dynamic HP bar
+        for x in range(hp_ticks):
+            hp_bar += tick
+
+        while True:
+            if len(hp_bar) == 25:
+                break
+            hp_bar += ' '
+
+        # Dynamic MP bar
+        mp_ticks = int(((self.mp / self.__max_mp) * 100) / 10)
+        mp_bar = ''
+
+        for x in range(mp_ticks):
+            mp_bar += tick
+
+        while True:
+            if len(mp_bar) == 10:
+                break
+            mp_bar += ' '
+
+        # Keep Hp 4 spaces
+        hp = str(self.hp)
+        if len(hp) < 2:
+            hp = f"   {hp}"
+        elif len(hp) < 3:
+            hp = f"  {hp}"
+        elif len(hp) < 4:
+            hp = f' {hp}'
+
+        print(f'                     {BColors.BOLD}_________________________            __________{BColors.ENDC}')
+        print(f'{BColors.BOLD}{self.name}:    {hp}/{self.__max_hp} '
+              f'|{BColors.OKGREEN}{hp_bar}{BColors.ENDC}'
+              f'{BColors.BOLD}|   {self.mp}/{self.__max_mp}|{BColors.OKBLUE}{mp_bar}{BColors.ENDC}{BColors.BOLD}|'
               f'{BColors.ENDC}')
