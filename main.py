@@ -4,7 +4,6 @@
 from classes.game import Person, BColors
 from classes.magic import Magic
 from classes.inventory import Item
-from sys import maxsize
 
 # Create Black Magic
 Fire = Magic('Fire', 10, 95, 'black')
@@ -23,13 +22,18 @@ Cura = Magic("Cura", 18, 200, 'white')
 potion = Item('Potion', 'potion', 'Heals 50 HP', 50)
 hi_potion = Item('Hi-Potion', 'potion', 'Heals 100 HP', 100)
 super_potion = Item('Super Potion', 'potion', 'Heals 500 HP', 500)
-elixir = Item('Elixir', 'elixir', 'Fully restores HP/MP of one party member', maxsize)
-mega_elixir = Item('Mega Elixir', 'elixir', "Fully restores party's HP/MP", maxsize)
+elixir = Item('Elixir', 'elixir', 'Fully restores HP/MP of one party member', 999999)
+mega_elixir = Item('Mega Elixir', 'elixir', "Fully restores party's HP/MP", 999999)
 grenade = Item('Grenade', 'attack', "Deals 500 damage", 500)
 
 
 player_spells = [Fire, Thunder, Blizzard, Meteor, Cure, Cura]
-player_items = [potion, hi_potion, super_potion, elixir, mega_elixir, grenade]
+player_items = [{'item': potion, 'quantity': 15},
+                {'item': hi_potion, 'quantity': 5},
+                {'item': super_potion, 'quantity': 5},
+                {'item': elixir, 'quantity': 5},
+                {'item': mega_elixir, 'quantity': 2},
+                {'item': grenade, 'quantity': 5}]
 
 enemy_spells = []
 enemy_items = []
@@ -108,12 +112,24 @@ while running:
         if item_idx == -1:
             continue
 
-        item = player.items[item_idx]
+        if player.items[item_idx]['quantity'] == 0:
+            print(f"{BColors.FAIL}\nNone left...{BColors.ENDC}")
+            continue
+
+        item = player.items[item_idx]['item']
+        player.items[item_idx]['quantity'] -= 1
 
         if item.type == 'potion':
             amount = item.prop
             player.heal(amount)
             print(f"{BColors.OKGREEN}\n{item.name} heals for {amount} HP{BColors.ENDC}")
+        elif item.type == 'elixir':
+            player.hp = player.max_hp
+            player.mp = player.max_mp
+            print(f"{BColors.OKGREEN}\n{item.name} fully restores HP/MP{BColors.ENDC}")
+        elif item.type == 'attack':
+            enemy.take_damage(item.prop)
+            print(f"{BColors.FAIL}\n{item.name} deals {item.prop} points of damage.{BColors.ENDC}")
 
     # Enemy attack move
     enemy_choice = 1
@@ -121,9 +137,9 @@ while running:
     player.take_damage(enemy_damage)
     print(f"{BColors.FAIL}{BColors.BOLD}Enemy attacks for {enemy_damage} points of damage.{BColors.ENDC}")
     print('-' * 30)
-    print(f"Enemy HP: {BColors.FAIL}{enemy.hp} / {enemy.max_hp()}{BColors.ENDC}\n"
-          f"Your HP: {BColors.OKGREEN}{player.hp} / {player.max_hp()}{BColors.ENDC}\n"
-          f"Your MP: {BColors.OKBLUE}{player.mp} / {player.max_mp()}{BColors.ENDC}\n")
+    print(f"Enemy HP: {BColors.FAIL}{enemy.hp} / {enemy.max_hp}{BColors.ENDC}\n"
+          f"Your HP: {BColors.OKGREEN}{player.hp} / {player.max_hp}{BColors.ENDC}\n"
+          f"Your MP: {BColors.OKBLUE}{player.mp} / {player.max_mp}{BColors.ENDC}\n")
 
     # check if someone is dead
     if enemy.hp == 0:

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*import
 import random
 from classes.inventory import Item
-from typing import List
+from typing import List, Dict
 from classes.magic import Magic
 
 
@@ -20,7 +20,8 @@ class BColors:
 class Person:
     ACTIONS = ['Attack', 'Magic', 'Items']
 
-    def __init__(self, hp: int, mp: int, attack: int, defence: int, magic: List[Magic], items: List[Item]):
+    def __init__(self, hp: int, mp: int, attack: int, defence: int,
+                 magic: List[Magic], items: List[Dict]):
         self.__max_hp = hp
         self.hp = hp
         self.__max_mp = mp
@@ -30,9 +31,11 @@ class Person:
         self.magic = magic
         self.items = items
 
+    @property
     def max_hp(self):
         return self.__max_hp
 
+    @property
     def max_mp(self):
         return self.__max_mp
 
@@ -74,5 +77,5 @@ class Person:
         i = 1
         print(f"{BColors.OKGREEN}{BColors.BOLD}ITEMS:{BColors.ENDC}")
         for item in self.items:
-            print(f"    {i}. {item.name}: {item.description} (x5)")
+            print(f"    {i}. {item['item'].name}: {item['item'].description} (x{item['quantity']})")
             i += 1
