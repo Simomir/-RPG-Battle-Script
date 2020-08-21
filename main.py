@@ -5,6 +5,21 @@ from classes.game import Person, BColors
 from classes.magic import Magic
 from classes.inventory import Item
 
+
+print(f'\n\n')
+print('Name                          HP                                 MP')
+print(f'                              {BColors.BOLD}_________________________          __________{BColors.ENDC}')
+print(f'{BColors.BOLD}Valos:               460/460 |{BColors.OKGREEN}█████████████            {BColors.ENDC}'
+      f'{BColors.BOLD}|   65/65|{BColors.OKBLUE}██████████{BColors.ENDC}{BColors.BOLD}|{BColors.ENDC}')
+print('                              _________________________          __________')
+
+print('Valos:               460/460 |                         |   65/65|          |')
+print('                              _________________________          __________')
+
+print('Valos:               460/460 |                         |   65/65|          |')
+
+print(f'\n\n')
+
 # Create Black Magic
 Fire = Magic('Fire', 10, 95, 'black')
 Thunder = Magic('Thunder', 12, 141, 'black')
