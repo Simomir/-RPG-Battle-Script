@@ -106,7 +106,7 @@ class Person:
                 break
             mp_bar += ' '
 
-        # Keep Hp 4 spaces
+        # Keep HP 4 spaces
         hp = str(self.hp)
         if len(hp) < 2:
             hp = f"   {hp}"
@@ -115,8 +115,15 @@ class Person:
         elif len(hp) < 4:
             hp = f' {hp}'
 
+        # Keep MP 3 spaces
+        mp = str(self.mp)
+        if len(mp) < 2:
+            mp = f'  {mp}'
+        elif len(mp) < 3:
+            mp = f' {mp}'
+
         print(f'                     {BColors.BOLD}_________________________            __________{BColors.ENDC}')
         print(f'{BColors.BOLD}{self.name}:    {hp}/{self.__max_hp} '
               f'|{BColors.OKGREEN}{hp_bar}{BColors.ENDC}'
-              f'{BColors.BOLD}|   {self.mp}/{self.__max_mp}|{BColors.OKBLUE}{mp_bar}{BColors.ENDC}{BColors.BOLD}|'
+              f'{BColors.BOLD}|   {mp}/{self.__max_mp}|{BColors.OKBLUE}{mp_bar}{BColors.ENDC}{BColors.BOLD}|'
               f'{BColors.ENDC}')
