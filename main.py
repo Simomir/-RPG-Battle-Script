@@ -87,7 +87,12 @@ while running:
             damage = player.damage()
             enemy = player.choose_target(enemies)
             enemies[enemy].take_damage(damage)
-            print(f"{player.name} attacked {enemies[enemy].name} for {damage} points of damage. Enemy HP: {enemy_2.hp}")
+            print(f"{player.name} attacked {enemies[enemy].name.replace(' ', '')}"
+                  f" for {damage} points of damage. Enemy HP: {enemy_2.hp}")
+
+            if enemies[enemy].hp == 0:
+                print(f"{enemies[enemy].name.replace(' ', '')} has died.")
+                del enemies[enemy]
 
         elif idx == 1:
             player.choose_magic()
@@ -120,7 +125,12 @@ while running:
                 enemy = player.choose_target(enemies)
                 enemies[enemy].take_damage(magic_damage)
                 print(f"{BColors.OKBLUE}{BColors.BOLD}\n"
-                      f"{spell.name} deals {magic_damage} points of damage to {enemies[enemy].name}.{BColors.ENDC}")
+                      f"{spell.name} deals {magic_damage} points of damage to"
+                      f" {enemies[enemy].name.replace(' ', '')}.{BColors.ENDC}")
+
+                if enemies[enemy].hp == 0:
+                    print(f"{enemies[enemy].name.replace(' ', '')} has died.")
+                    del enemies[enemy]
 
         elif idx == 2:
             player.choose_item()
@@ -157,7 +167,11 @@ while running:
                 enemy = player.choose_target(enemies)
                 enemies[enemy].take_damage(item.prop)
                 print(f"{BColors.OKBLUE}{BColors.BOLD}\n{item.name} deals {item.prop} points of damage"
-                      f"to {enemies[enemy].name}.{BColors.ENDC}")
+                      f"to {enemies[enemy].name.replace(' ', '')}.{BColors.ENDC}")
+
+                if enemies[enemy].hp == 0:
+                    print(f"{enemies[enemy].name.replace(' ', '')} has died.")
+                    del enemies[enemy]
 
     # Enemy attack move
     target = random.randrange(0, len(players))
@@ -165,10 +179,22 @@ while running:
     players[target].take_damage(enemy_damage)
     print(f"{BColors.FAIL}{BColors.BOLD}Enemy attacks for {enemy_damage} points of damage.{BColors.ENDC}")
 
-    # check if someone is dead
-    if enemy_2.hp == 0:
+    # check who won
+    defeated_enemies = 0
+    defeated_players = 0
+
+    for x in enemies:
+        if x.hp == 0:
+            defeated_enemies += 1
+
+    for y in players:
+        if y.hp == 0:
+            defeated_players += 1
+
+    if defeated_enemies == 3:
         print(f"{BColors.OKGREEN}You win!{BColors.ENDC}")
         running = False
-    elif player_1.hp == 0:
-        print(f"{BColors.FAIL}Your enemy has defeated you!{BColors.ENDC}")
+
+    elif defeated_players == 3:
+        print(f"{BColors.FAIL}Your enemies have defeated you!{BColors.ENDC}")
         running = False

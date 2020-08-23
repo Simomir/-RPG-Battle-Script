@@ -83,13 +83,15 @@ class Person:
     @staticmethod
     def choose_target(enemies):
         i = 1
+        alive_enemies = len([x for x in enemies if x.hp > 0])
         print(f"\n{BColors.OKGREEN}{BColors.BOLD}TARGET:{BColors.ENDC}")
         for enemy in enemies:
-            print(f"    {i}. {enemy.name}")
-            i += 1
+            if enemy.hp != 0:
+                print(f"    {i}. {enemy.name}")
+                i += 1
         while True:
             choice = int(input("Choose target: ")) - 1
-            if choice in range(1, len(enemies) + 1) or choice == 0:
+            if choice in range(1, alive_enemies + 1) or choice == 0:
                 break
             print("Wrong magic number! Choose again!")
         return choice
