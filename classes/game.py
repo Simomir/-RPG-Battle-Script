@@ -172,3 +172,15 @@ class Person:
         print(f'{BColors.BOLD}{self.name}  {hp}/{self.__max_hp} '
               f'|{BColors.FAIL}{hp_bar}{BColors.ENDC}'
               f'{BColors.BOLD}|{BColors.ENDC}')
+
+    def choose_enemy_spell(self):
+        magic_choice = random.randrange(0, len(self.magic))
+        spell = self.magic[magic_choice]
+        magic_dmg = spell.generate_damage()
+
+        hp_breakpoint = self.hp / self.__max_hp * 100
+
+        if self.mp < spell.mp_cost or (spell.type == 'white' and hp_breakpoint > 50):
+            self.choose_enemy_spell()
+        else:
+            return spell, magic_dmg
