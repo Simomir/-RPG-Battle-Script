@@ -4,11 +4,11 @@ import random
 
 
 class Magic:
-    def __init__(self, name: str, mp_cost: int, damage: int, type):
+    def __init__(self, name: str, mp_cost: int, damage: int, var):
         self.name = name
         self.mp_cost = mp_cost
         self.damage = damage
-        self.type = type
+        self.type = var
 
     def generate_damage(self):
         low = self.damage - 20
